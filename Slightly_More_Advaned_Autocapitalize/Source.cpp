@@ -7,8 +7,8 @@ using namespace std;
 string AutoCapitalize(string inputString)
 {
 	string reconstituted_Input;
-	bool capitalize = 0;
-	bool capitalized = false;
+	bool capitalize_next_letter = 0;
+	bool dont_capitalize = false;
 	bool decapitated = false;
 
 	reconstituted_Input += toupper(inputString[0]);//uvijek prvo slovo povecaj, pokazuje tocan broj slova i ne ukljucuje tocku
@@ -17,96 +17,41 @@ string AutoCapitalize(string inputString)
 	{
 		if ( inputString[i] == '.')
 		{
-				capitalize = true;
+				capitalize_next_letter = true;
 		}
 
-		if (capitalize == true)		//if the character in front of a period is "space", the check the character after that, if that character is an already capitalized letter, remove the capitalize command, do this 4 times
+		if (capitalize_next_letter == true)		//if the character in front of a period is "space", the check the character after that, if that character is an already capitalized letter, remove the capitalize command, do this 4 times
 		{
-			if (inputString[i] < 91 && inputString[i] > 64)
+			if(isupper(inputString[i]))
 			{
-				capitalized = true;
+				dont_capitalize = true;
 			}
 		}
 
-		if (capitalize == true && capitalized == false)
+		if (capitalize_next_letter == true && dont_capitalize == false)
 		{
-			switch (inputString[i])
+			if (islower(inputString[i])) //Malo slovo u Veliko
 			{
-			case (97):	//povećaj sa malog slova na veliko
-			case (98):
-			case (99):
-			case (100):
-			case (101):
-			case (102):
-			case (103):
-			case (104):
-			case (105):
-			case (106):
-			case (107):
-			case (108):
-			case (109):
-			case (110):
-			case (111):
-			case (112):
-			case (113):
-			case (114):
-			case (115):
-			case (116):
-			case (117):
-			case (118):
-			case (119):
-			case (120):
-			case (121):
-			case (122):
 				inputString[i] = toupper(inputString[i]);
-				capitalize = false;
-				capitalized = true; //rjesava error gdje smanji slovo nakon sto smo ga mi namjerno povecali
+				capitalize_next_letter = false;
+				dont_capitalize = true; //rjesava error gdje smanji sljedeće slovo nakon što smo povećali traženo slovo
 			}
-
 		}
 
-		if ((capitalize == false) && (capitalized == false)) //kada capitalize nije na true	i kada nije malo slovo
+		if ((capitalize_next_letter == false) && (dont_capitalize == false)) //kada capitalize nije na true	i kada nije malo slovo
 		{
-
-			switch (inputString[i])
+			if (isupper(inputString[i])) //Veliko slovo u malo
 			{
-			case (65):	//veliko slovo na malo
-			case (66):
-			case (67):
-			case (68):
-			case (69):
-			case (70):
-			case (71):
-			case (72):
-			case (73):
-			case (74):
-			case (75):
-			case (76):
-			case (77):
-			case (78):
-			case (79):
-			case (80):
-			case (81):
-			case (82):
-			case (83):
-			case (84):
-			case (85):
-			case (86):
-			case (87):
-			case (88):
-			case (89):
-			case (90):
 				inputString[i] = tolower(inputString[i]);
-				decapitated = true;
 			}
 		}
 
-		if (capitalize == true && capitalized == true)
+		if (capitalize_next_letter == true && dont_capitalize == true)
 		{
-			capitalize = false;
+			capitalize_next_letter = false;
 		}
 
-		capitalized = false;
+		dont_capitalize = false;
 		reconstituted_Input += inputString[i];
 	}
 
